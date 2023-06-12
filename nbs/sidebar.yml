@@ -12,3 +12,4 @@ website:
       - 07_utils.ipynb
       - 08_phasetools.ipynb
       - 09_cli.ipynb
+      - 10_modelcomparison.ipynb

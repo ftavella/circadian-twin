@@ -2,8 +2,8 @@ project:
   output-dir: _docs
 
 website:
-  title: "circadian"
-  site-url: "https://ftavella.github.io/circadian-twin//circadian"
+  title: "circadian by Arcascope"
+  site-url: "https://arcascope.github.io/circadian//circadian"
   description: "Tools for the simulation and analysis of circadian rhythms"
   repo-branch: main
-  repo-url: "https://github.com/ftavella/circadian-twin"
+  repo-url: "https://github.com/Arcascope/circadian"

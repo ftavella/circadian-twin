@@ -273,8 +273,11 @@ d = { 'settings': { 'branch': 'main',
                                  'circadian.utils.redact_dates': ('api/utils.html#redact_dates', 'circadian/utils.py'),
                                  'circadian.utils.simple_norm_stepshr_sleep_classifier': ( 'api/utils.html#simple_norm_stepshr_sleep_classifier',
                                                                                            'circadian/utils.py'),
+                                 'circadian.utils.sleep_midpoint_and_duration': ( 'api/utils.html#sleep_midpoint_and_duration',
+                                                                                  'circadian/utils.py'),
                                  'circadian.utils.split_drop_data': ('api/utils.html#split_drop_data', 'circadian/utils.py'),
                                  'circadian.utils.split_missing_data': ('api/utils.html#split_missing_data', 'circadian/utils.py'),
                                  'circadian.utils.subtract_clock_times': ('api/utils.html#subtract_clock_times', 'circadian/utils.py'),
                                  'circadian.utils.times_to_angle': ('api/utils.html#times_to_angle', 'circadian/utils.py'),
-                                 'circadian.utils.timezone_mapper': ('api/utils.html#timezone_mapper', 'circadian/utils.py')}}}
+                                 'circadian.utils.timezone_mapper': ('api/utils.html#timezone_mapper', 'circadian/utils.py'),
+                                 'circadian.utils.utc_to_hrs': ('api/utils.html#utc_to_hrs', 'circadian/utils.py')}}}

@@ -154,6 +154,8 @@ def _initial_condition_input_checking(initial_condition, num_states):
         raise TypeError("initial_condition must be numeric")
     if initial_condition.shape[0] != num_states:
         raise ValueError(f"initial_condition must have length {num_states}")
+    if np.any(np.isnan(initial_condition)):
+        raise ValueError("initial_condition must not contain NaNs")
     return True
 
 
@@ -168,6 +170,8 @@ def _model_input_checking(input, num_inputs, time):
     if num_inputs > 1:
         if input.shape[1] != num_inputs:
             raise ValueError(f"input must have {num_inputs} columns")
+    if np.any(np.isnan(input)):
+        raise ValueError("input must not contain NaNs")
 
     
 def _light_input_checking(light):
@@ -178,6 +182,8 @@ def _light_input_checking(light):
         raise ValueError("light must be a 1D array")
     if not np.issubdtype(light.dtype, np.number):
         raise TypeError("light must be numeric")
+    if np.any(np.isnan(light)):
+        raise ValueError("light must not contain NaNs")
     if not np.all(light >= 0):
         raise ValueError("light intensity must be nonnegative")
     return True
@@ -191,6 +197,8 @@ def _wake_input_checking(wake):
         raise ValueError("wake must be a 1D array")
     if not np.issubdtype(wake.dtype, np.number):
         raise TypeError("wake must be numeric")
+    if np.any(np.isnan(wake)):
+        raise ValueError("wake must not contain NaNs")
     if not np.all(wake >= 0) and not np.all(wake <= 1):
         raise ValueError("wake must be between 0 and 1")
     return True
@@ -1177,12 +1185,14 @@ class Skeldon23(CircadianModel):
             }
         num_states = 4 # x, xc, n, H
         num_inputs = 1 # light
-        default_initial_condition = np.array([0.23995682, -1.1547196, 0.50529415, 12.83846474])
+        default_initial_condition = np.array([0.23995682, -1.1547196, 0.50529415, 12.83846474]) # condition at midnight for 16L, 8D schedule, S0 = 0
         super(Skeldon23, self).__init__(default_params, num_states, num_inputs, default_initial_condition)
         if params is not None:
             self.parameters = params
             if 'S0' in params:
                 self.current_sleep_state = params['S0'] # 0 for wake, 1 for sleep
+            else:
+                self.current_sleep_state = default_params['S0']
         else:
             self.current_sleep_state = default_params['S0'] # 0 for wake, 1 for sleep
         # sleep/wake
@@ -1199,6 +1209,9 @@ class Skeldon23(CircadianModel):
         # input checking
         if input is not None:
             _light_input_checking(input)
+        # add additional warning if input has batch dimension
+        if initial_condition is not None and initial_condition.ndim >= 2:
+            raise ValueError("Skeldon23 model can't be run in batch mode. Please provide a single initial condition")
         # reset sleep state and received light
         self.sleep_state = np.array([self.current_sleep_state])
         self.received_light = np.array([input[0]])
